@@ -41,6 +41,7 @@ class SighInActivity : AppCompatActivity() {
         binding.signInButton.setOnClickListener {
             signInWithGoogle()
         }
+        checkAuthState()
     }
 
 
@@ -63,9 +64,17 @@ class SighInActivity : AppCompatActivity() {
         auth.signInWithCredential(credential).addOnCompleteListener {
             if(it.isSuccessful) {
                 Toast.makeText(applicationContext, "Successful login with google", Toast.LENGTH_SHORT).show()
+                checkAuthState()
             } else {
                 Toast.makeText(applicationContext, "Error login with google", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun checkAuthState() {
+        if(auth.currentUser != null) {
+            val i = Intent(this, MainActivity::class.java)
+            startActivity(i)
         }
     }
 }
